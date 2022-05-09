@@ -54,7 +54,9 @@
 <a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
   <a-assets>
     <img id="card" src="./8359_BG2.png" />
-    <img id="waschbaer" src="./8359.gif" />
+    <img id="8359" src="./8359.gif" />
+    <img id="8406A" src="./8406A.jpg" />
+    <img id="8435" src="./8435.jpg" />
     <img id="pusheen" src="./pusheen.gif" />
 
     <video id="vid" src="./8359_2.mp4" autoplay="true" loop="true"> </video>
@@ -72,11 +74,15 @@
     <!-- Video test , läuft noch nicht
       <a-video src="#vid" position="0.5 0.5 0.5" autoplay="true" loop="true"> </a-video>
     -->
-    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#waschbaer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry=""></a-entity>
+    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#8359;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry=""></a-entity>
   </a-entity>
 
   <a-entity mindar-image-target="targetIndex: 1">
-    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#pusheen;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry=""></a-entity>
+    <a-image position="0 0 0.2"  scale="1 1.5 1" src="#8406A"></a-image>
+  </a-entity>
+
+  <a-entity mindar-image-target="targetIndex: 2">
+    <a-image position="0 0 0.2"  scale="1 1.5 1" src="#8435"></a-image>
   </a-entity>
 </a-scene>
 
