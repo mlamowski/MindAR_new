@@ -55,24 +55,28 @@
   <a-assets>
     <img id="card" src="./8359_BG2.png" />
     <img id="waschbaer" src="./8359.gif" />
+    <img id="pusheen" src="./pusheen.gif" />
+
     <video id="vid" src="./8359_2.mp4" autoplay="true" loop="true"> </video>
 
 
   </a-assets>
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-  <a-entity mindar-image-target="targetIndex: 0" >
-    <a-image position="0 0 0.1" scale="1 1.5 1" src="#card" ></a-image>
 
+
+  <a-entity mindar-image-target="targetIndex: 0">
     <!-- PNG SEQUENZ
     <a-image position="-0.5 -0.42 0.3"  scale="2 2 2" src="#card" animate-png></a-image>
     -->
-    <!-- ANIMIERTES GIF NON TRANSPARENZ -->
-    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#waschbaer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry=""></a-entity>
 
     <!-- Video test , läuft noch nicht
-    <a-video src="#vid" position="0.5 0.5 0.5" autoplay="true" loop="true"> </a-video>
+      <a-video src="#vid" position="0.5 0.5 0.5" autoplay="true" loop="true"> </a-video>
     -->
+    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#waschbaer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry=""></a-entity>
+  </a-entity>
 
+  <a-entity mindar-image-target="targetIndex: 1">
+    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#waschbaer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry=""></a-entity>
   </a-entity>
 </a-scene>
 
