@@ -3,47 +3,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image.prod.js"></script>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="/path/to/howler.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
   <!-- Quelle: https://jsfiddle.net/Lwtzjnk9/1/ für png sequenzen -->
   <script>
-    AFRAME.registerComponent("animate-png", {
-      init: function() {
-        // load the .pngs
-        let loader = new THREE.TextureLoader()
-        this.pngArray = []
 
-        //for-schleife
-        let anim_frames = 54;
-        for(var i = 1; i <= anim_frames; i++) {
-          if(i < 10) {
-            this.pngArray.push(loader.load("./animate_png/8359_2000" + i + ".png"))
-
-          }
-          this.pngArray.push(loader.load("./animate_png/8359_200" + i + ".png"))
-
-        }
-
-        this.el.addEventListener('loaded', e => {
-          let mesh = this.el.getObject3D("mesh")
-          this.material = mesh.material
-
-          var i = 0
-          this.id = setInterval(e => {
-            if (i >= this.pngArray.length) i = 0;
-            this.material.map = this.pngArray[i++]
-            this.material.needsUpdate = true
-          }, 100)
-        })
-      },
-      remove: function() {
-        clearInterval(this.id);
-        // free the memory
-        for (let i = 0; i < this.pngArray.length; i++) {
-          this.pngArray[i].dispose();
-        }
-      }
-    })
 
   </script>
 </head>
@@ -54,19 +20,20 @@
 <a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
   <a-assets>
     <img id="card" src="./8359_BG2.png" />
-    <img id="baer" src="./8359.gif" />
+    <img id="ballon" src="./8359.gif" />
+    <img id="dancebaer" src="./8435.gif" />
     <img id="8406A" src="./8406A.jpg" />
     <img id="8435" src="./8435.jpg" />
     <img id="pusheen" src="./pusheen.gif" />
-
+    <audio id="sound" src="wee-sound-effect.mp3" preload="auto"></audio>
+    <a-asset-item id="rechteck" src="./bones_test2.gltf"></a-asset-item>
     <video id="vid" src="./8359_2.mp4" autoplay="true" loop="true"> </video>
 
 
   </a-assets>
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-
-  <a-entity mindar-image-target="targetIndex: 0">
+  <a-entity id="example-target" mindar-image-target="targetIndex: 0" >
     <!-- PNG SEQUENZ
     <a-image position="-0.5 -0.42 0.3"  scale="2 2 2" src="#card" animate-png></a-image>
     -->
@@ -74,17 +41,22 @@
     <!-- Video test , läuft noch nicht
       <a-video src="#vid" position="0.5 0.5 0.5" autoplay="true" loop="true"> </a-video>
     -->
-    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#baer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry=""></a-entity>
+    <!-- gltf model, animation klappt nicht, in blender mal schauen
+    <a-gltf-model rotation="0 0 0 " position="0 -0.25 0.3" src="#rechteck" animation-mixer="">
+    -->
+      <!-- Standart gif, klappt -->
+    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#ballon;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity>
   </a-entity>
 
   <a-entity mindar-image-target="targetIndex: 1">
-    <a-image position="0 0 0.2"  scale="1 1.5 1" src="#8406A"></a-image>
+    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#dancebaer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity>
   </a-entity>
 
   <a-entity mindar-image-target="targetIndex: 2">
-    <a-image position="0 0 0.2"  scale="1 1.5 1" src="#8435"></a-image>
+    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#dancebaer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity>
   </a-entity>
 </a-scene>
+
 
 
 </body>
