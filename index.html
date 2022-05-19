@@ -29,12 +29,27 @@
     <img id="pusheen" src="./pusheen.gif" />
     <audio id="sound" src="wee-sound-effect.mp3" autoplay loop playsinline webkit-playsinline muted></audio>
     <a-asset-item id="rechteck" src="./bones_test2.gltf"></a-asset-item>
-    <video id="lovers_vid" src="./8406A.mp4" autoplay loop playsinline webkit-playsinline muted> </video>
+    <video id="lovers_vid" src="./8406A.mp4" autoplay="false" loop playsinline webkit-playsinline muted> </video>
     <video id="lovers_vid2" src="./8406A.mp4" playsinline webkit-playsinline muted> </video>
     <video id="lovers_vid3" src='https://rawcdn.githack.com/gftruj/webzamples/b500ecb2171e288ae6a14a917816d300a6d374c3/aframe/assets/videos/soccer/soccer1.webm'  crossorigin="anonymous" muted playsinline webkit-playsinline> </video>
-    <video id="testvid" src="./8359_2.mp4"> </video>
 
+    <video
+            id="soccer"
+            crossOrigin="anonymous"
+            src="https://rawcdn.githack.com/gftruj/webzamples/b500ecb2171e288ae6a14a917816d300a6d374c3/aframe/assets/videos/soccer/soccer1.webm"
+            preload="auto"
+            autoPlay
+            loop="true"
+    ></video>
 
+    <video
+            id="test"
+            crossOrigin="anonymous"
+            src="./8406A.mp4"
+            preload="auto"
+            autoPlay
+            loop="true"
+    ></video>
 
 
 
@@ -44,16 +59,33 @@
   <a-entity mindar-image-target="targetIndex: 0" >
     <!-- <a-gltf-model rotation="0 0 0 " position="0 -0.25 0.3" src="#rechteck" animation-mixer=""> -->
     <!-- <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#ballon;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity> -->
-    <a-video src="#lovers_vid3"> </a-video>
+    <a-video
+            play-on-click
+            alpha-video
+            width="1.32"
+            height="1"
+            rotation="270 0 0"
+            position="0 0.14 0"
+            src="#soccer"
+            material="transparent: true"
+    ></a-video>
   </a-entity>
 
-  <a-entity id="example-target" mindar-image-target="targetIndex: 1">
+  <a-entity mindar-image-target="targetIndex: 1">
     <!-- <a-video src="#lovers_vid" scale="1 1.5 1" position="0 0 0.2" > </a-video> -->
-    <a-video src="#testvid"> </a-video>
-  </a-entity>
+    <a-video
+            play-on-click
+            alpha-video
+            width="1.32"
+            height="1"
+            rotation="270 0 0"
+            position="0 0.14 0"
+            src="#test"
+            material="transparent: true"
+    ></a-video>  </a-entity>
 
-  <a-entity id="example-target2" mindar-image-target="targetIndex: 2">
-    <a-entity geometry="primitive: plane" material="src: #lovers_vid2; shader: flat"> </a-entity>
+  <a-entity id="example-target" mindar-image-target="targetIndex: 2">
+    <a-video src="#lovers_vid" scale="1 1.5 1" position="0 0 0.2" > </a-video>
     <!-- <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#dancebaer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity> -->
     <a-sound src="#sound"></a-sound>
   </a-entity>
@@ -63,7 +95,7 @@
   // detect target found
 
   const myTarget = document.getElementById("example-target");
-  const vid = document.getElementById("lovers_vid3");
+  const vid = document.getElementById("lovers_vid");
 
   myTarget.addEventListener("targetFound", event => {
     console.log("target found");
@@ -91,6 +123,38 @@
     vid2.pause();
   });
 
+
+
+  AFRAME.registerComponent("alpha-video", {
+    init: function() {
+      this.materialLoaded = this.materialLoaded.bind(this);
+      console.log("init");
+      // wait until the material is ready
+      this.el.addEventListener("loaded", this.materialLoaded);
+    },
+    materialLoaded: function() {
+      // grab the material
+      let material = this.el.getObject3D("mesh").material;
+      console.log(material.map.format);
+
+      // swap the format
+      material.map.format = THREE.RGBAFormat;
+      material.map.needsUpdate = true;
+      console.log(material.map);
+    },
+    remove: function() {
+      this.el.removeEventListener("loaded", this.materialLoaded);
+    }
+  });
+  // clickable
+  AFRAME.registerComponent("play-on-click", {
+    init: function() {
+      document.body.addEventListener("click", e => {
+        const src = this.el.getAttribute("src");
+        document.querySelector(src).play();
+      });
+    }
+  });
 </script>
 
 </body>
