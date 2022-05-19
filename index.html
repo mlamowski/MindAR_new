@@ -29,9 +29,9 @@
     <img id="pusheen" src="./pusheen.gif" />
     <audio id="sound" src="wee-sound-effect.mp3" autoplay loop playsinline webkit-playsinline muted></audio>
     <a-asset-item id="rechteck" src="./bones_test2.gltf"></a-asset-item>
-    <video id="lovers_vid" src="./8406A.mp4" autoplay="false" loop playsinline webkit-playsinline muted> </video>
-    <video id="lovers_vid2" src="./8406A.mp4" playsinline webkit-playsinline muted> </video>
-    <video id="lovers_vid3" src='https://rawcdn.githack.com/gftruj/webzamples/b500ecb2171e288ae6a14a917816d300a6d374c3/aframe/assets/videos/soccer/soccer1.webm'  crossorigin="anonymous" muted playsinline webkit-playsinline> </video>
+    <video id="lovers_vid" src="./8406A.mp4" crossorigin="anonymous" muted playsinline webkit-playsinline> </video>
+    <video id="lovers_lowres" src="./8406A_lowres.mp4" crossorigin="anonymous" muted playsinline webkit-playsinline> </video>
+
 
     <video
             id="soccer"
@@ -45,7 +45,7 @@
     <video
             id="test"
             crossOrigin="anonymous"
-            src="./8406A.mp4"
+            src="./8406A_lowres.webm"
             preload="auto"
             autoPlay
             loop="true"
@@ -85,9 +85,9 @@
     ></a-video>  </a-entity>
 
   <a-entity id="example-target" mindar-image-target="targetIndex: 2">
-    <a-video src="#lovers_vid" scale="1 1.5 1" position="0 0 0.2" > </a-video>
+    <a-video src="#lovers_lowres" scale="1 1.5 1" position="0 0 0.2" > </a-video>
     <!-- <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#dancebaer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity> -->
-    <a-sound src="#sound"></a-sound>
+    <!-- <a-sound src="#sound"></a-sound> -->
   </a-entity>
 </a-scene>
 
@@ -95,7 +95,7 @@
   // detect target found
 
   const myTarget = document.getElementById("example-target");
-  const vid = document.getElementById("lovers_vid");
+  const vid = document.getElementById("lovers_lowres");
 
   myTarget.addEventListener("targetFound", event => {
     console.log("target found");
