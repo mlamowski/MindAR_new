@@ -8,6 +8,7 @@
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+  <script src="https://rawgit.com/mayognaise/aframe-video-shader/master/dist/aframe-vid-shader.min.js"></script>
   <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.2/dist/aframe-extras.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!-- Quelle: https://jsfiddle.net/Lwtzjnk9/1/ für png sequenzen -->
@@ -40,6 +41,7 @@
     <!-- <a-gltf-model rotation="0 0 0 " position="0 -0.25 0.3" src="#rechteck" animation-mixer=""> -->
     <!-- <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#ballon;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity> -->
     <a-video src="#lovers_vid2"> </a-video>
+    <a-entity geometry="primitive:box;" scale="1 1.5 1" position="0 0 0.2" material="shader:video;src:#lovers_vid2;"></a-entity>
   </a-entity>
 
   <a-entity id="example-target" mindar-image-target="targetIndex: 1">
