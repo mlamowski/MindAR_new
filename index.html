@@ -39,7 +39,7 @@
   </a-assets>
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <a-entity id="example-target2" mindar-image-target="targetIndex: 0" >
+  <a-entity mindar-image-target="targetIndex: 0" >
     <!-- <a-gltf-model rotation="0 0 0 " position="0 -0.25 0.3" src="#rechteck" animation-mixer=""> -->
     <!-- <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#ballon;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity> -->
     <!--<a-video src="#lovers_vid2"> </a-video>-->
@@ -51,8 +51,8 @@
     <a-entity geometry="primitive: plane" material="src: #lovers_vid3; shader: flat"> </a-entity>
   </a-entity>
 
-  <a-entity mindar-image-target="targetIndex: 2">
-    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:video;src:#lovers_vid2;"></a-entity>
+  <a-entity id="example-target2" mindar-image-target="targetIndex: 2">
+    <a-entity geometry="primitive: plane" material="src: #lovers_vid2; shader: flat"> </a-entity>
     <!-- <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#dancebaer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity> -->
     <a-sound src="#sound"></a-sound>
   </a-entity>
@@ -61,7 +61,7 @@
 <script>
   // detect target found
   const myTarget = document.getElementById("example-target");
-  const vid = document.getElementById("lovers_vid");
+  const vid = document.getElementById("lovers_vid3");
 
   myTarget.addEventListener("targetFound", event => {
     console.log("target found");
