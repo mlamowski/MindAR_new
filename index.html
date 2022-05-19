@@ -7,7 +7,6 @@
   <script src="/path/to/howler.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
-  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.7/aframe/build/aframe-ar.js"></script>
   <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
   <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.2/dist/aframe-extras.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -18,7 +17,7 @@
 
 
 
-<a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" embedded arjs>
+<a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" embedded arjs='sourceType: webcam; debugUIEnabled: false;'>
   <a-assets>
     <img id="card" src="./8359_BG2.png" />
     <img id="ballon" src="./8359.gif" />
@@ -29,7 +28,7 @@
     <img id="pusheen" src="./pusheen.gif" />
     <audio id="sound" src="wee-sound-effect.mp3" autoplay loop playsinline webkit-playsinline muted></audio>
     <a-asset-item id="rechteck" src="./bones_test2.gltf"></a-asset-item>
-    <video id="lovers_vid" src="./8406A.mp4" autoplay loop playsinline webkit-playsinline muted> </video>
+    <video id="lovers_vid" src="./8406A.mp4" crossOrigin="anonymous" type="video/mp4" autoplay loop="true" playsinline webkit-playsinline controls muted> </video>
 
 
   </a-assets>
@@ -46,13 +45,12 @@
       <!-- Standart gif, klappt -->
     <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#ballon;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity>
   </a-entity>
-  <a-marker preset="hiro">
 
   <a-entity id="example-target" mindar-image-target="targetIndex: 1">
-    <a-video src="#lovers_vid" scale="1 1.5 1" position="0 0 0.2"> </a-video>
-
+    <a-marker-camera preset="custom" type="pattern" url="pattern-e.patt">
+    <a-video src="#lovers_vid" scale="1 1.5 1" position="0 0 0.2" > </a-video>
+    </a-marker-camera>
   </a-entity>
-  </a-marker>
 
   <a-entity id="example-target2" mindar-image-target="targetIndex: 2">
     <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#dancebaer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity>
@@ -89,11 +87,6 @@
   myTarget2.addEventListener("targetLost", event => {
     console.log("target lost");
     sound.muted = true;
-  });
-
-  window.addEventListener('click', function () {
-    var v = document.querySelector('#lovers_vid');
-    v.play();
   });
 
 </script>
