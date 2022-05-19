@@ -8,10 +8,7 @@
   <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
   <!-- Quelle: https://jsfiddle.net/Lwtzjnk9/1/ für png sequenzen -->
-  <script>
 
-
-  </script>
 </head>
 <body>
 
@@ -28,20 +25,17 @@
     <img id="pusheen" src="./pusheen.gif" />
     <audio id="sound" src="wee-sound-effect.mp3" preload="auto"></audio>
     <a-asset-item id="rechteck" src="./bones_test2.gltf"></a-asset-item>
-    <video id="vid" src="./8359_2.mp4" autoplay="true" loop="true"> </video>
+    <video id="lovers_vid" src="./8406A.mp4" preload="auto" autoplay loop="true" crossOrigin="anonymous" muted> </video>
 
 
   </a-assets>
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <a-entity id="example-target" mindar-image-target="targetIndex: 0" >
+  <a-entity mindar-image-target="targetIndex: 0" >
     <!-- PNG SEQUENZ
     <a-image position="-0.5 -0.42 0.3"  scale="2 2 2" src="#card" animate-png></a-image>
     -->
 
-    <!-- Video test , läuft noch nicht
-      <a-video src="#vid" position="0.5 0.5 0.5" autoplay="true" loop="true"> </a-video>
-    -->
     <!-- gltf model, animation klappt nicht, in blender mal schauen
     <a-gltf-model rotation="0 0 0 " position="0 -0.25 0.3" src="#rechteck" animation-mixer="">
     -->
@@ -49,8 +43,8 @@
     <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#ballon;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity>
   </a-entity>
 
-  <a-entity mindar-image-target="targetIndex: 1">
-    <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.2" material="shader:gif;src:#lovers;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity>
+  <a-entity id="example-target" mindar-image-target="targetIndex: 1">
+    <a-video src="#lovers_vid" scale="1 1.5 1" position="0 0 0.2" > </a-video>
   </a-entity>
 
   <a-entity mindar-image-target="targetIndex: 2">
@@ -58,7 +52,23 @@
   </a-entity>
 </a-scene>
 
+<script>
+  // detect target found
+  const myTarget = document.getElementById("example-target");
+  const vid = document.getElementById("lovers_vid");
+  myTarget.addEventListener("targetFound", event => {
+    console.log("target found");
+    vid.play();
+    vid.muted = false;
+  });
+  // detect target lost
+  myTarget.addEventListener("targetLost", event => {
+    console.log("target lost");
+    vid.muted = true;
+    vid.pause();
+  });
 
+</script>
 
 </body>
 </html>
