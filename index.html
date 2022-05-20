@@ -46,7 +46,7 @@
 
   <a-entity  mindar-image-target="targetIndex: 2">
     <a-entity geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.1" material="shader:gif;src:#dancebaer;alphaTest:0.5;" transparent="false" gif="" rotation="" scale="" visible="" geometry="" ></a-entity>
-    <a-sound src="soundii" autoplay="true"> </a-sound>
+    <a-sound src="soundii" autoplay="true" detect-target> </a-sound>
 
   </a-entity>
 </a-scene>
@@ -84,6 +84,18 @@
     console.log("target lost");
     soundo.pause();
 
+  });
+
+  // detect
+  AFRAME.registerComponent("detect-target", {
+    init: function() {
+      document.body.addEventListener("targetFound", e => {
+        const src = this.el.getAttribute("src");
+        document.querySelector(src).play();
+        document.querySelector(src).playSound();
+
+      });
+    }
   });
 
   // clickable
