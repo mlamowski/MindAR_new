@@ -21,34 +21,20 @@
 
 
   <script>
-
-    // Was fehlt: GLTF-Modell und ballon gif überarbeiten
-    // pausieren am anfang
-    // Sound abspielen
-    // hosten
-
     document.addEventListener("DOMContentLoaded", function() {
       const sceneEl = document.querySelector('a-scene');
       const arSystem = sceneEl.systems["mindar-image-system"];
+      var exampleTarget = document.querySelector('#lovers');
+      console.log("Content is ready");
 
       // arReady event triggered when ready
       sceneEl.addEventListener("arReady", (event) => {
-        init: function() {
-          console.log("MindAR is ready")
-        }
+        console.log("MindAR is ready");
 
-      });
-      myTarget.addEventListener("targetFound", event => {
-        console.log("target found");
 
-      });
-      // detect target lost
-      myTarget.addEventListener("targetLost", event => {
-        console.log("target lost");
       });
 
     });
-
   </script>
 </head>
 <body>
@@ -56,7 +42,7 @@
 
 
 
-<a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+<a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" >
   <a-assets>
     <img id="card" src="8359_BG2.png" />
 
@@ -66,29 +52,34 @@
     <img id="lovers" src="8406A.gif" />
 
     <!-- SOUNDS -->
-    <audio id="soundii" src="wee-sound-effect.mp3" preload="auto" loop ></audio>
+    <audio id="loversSound" src="wee-sound-effect.mp3" preload="auto" ></audio>
 
     <!-- GLTF -->
     <a-asset-item id="confetti" src="./imported_mp4_ballon_2.gltf"></a-asset-item>
 
+
+
   </a-assets>
 
-  <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: ${customFields.libVersion}; objects: .clickable"></a-camera>
+  <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: ${customFields.libVersion}; objects: .clickable" ></a-camera>
+  <a-entity id="soundPlayer" sound="src: #change; loop: true;" play-on-click ></a-entity>
 
   <a-entity id="example-target"  mindar-image-target="targetIndex: 0" >
-    <!-- GLTF STARTEN -->
+    <!-- Control mp4 with click -->
     <a-gltf-model rotation="0 0 0 " position="0 0 0.3" src="#confetti" animation-mixer=""> </a-gltf-model>
-    <a-entity id="ballon" geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.1" material="shader:gif;src:#ballon" ></a-entity>
-    <a-sound id="soundneu" src="soundii" autoplay="true" detect-target> </a-sound>
-    <!-- SOUND STARTEN-->
+    <a-entity id="ballon" geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.1" material="shader:gif;src:#ballon; autoplay: false" detect-target ></a-entity>
+    <!-- SOUND STARTEN
+    <a-entity id="ambientSound" sound="src: #soundWee; loop: true;" play-on-click ></a-entity>
+    -->
   </a-entity>
 
+  <!-- Control gif, pause in the beginning  -->
   <a-entity mindar-image-target="targetIndex: 1">
-    <a-entity id="lovers" geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.1" material="shader:gif;src:#lovers" detect-target ></a-entity>
+    <a-entity id="lovers" geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.1" material="shader:gif;src:#lovers; autoplay:false" play-on-click ></a-entity>
   </a-entity>
 
   <a-entity mindar-image-target="targetIndex: 2">
-    <a-entity id="dancebear" geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.1" material="shader:gif;src:#dancebear" play-on-click ></a-entity>
+    <a-entity id="dancebear" geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.1" material="shader:gif;src:#dancebear" ></a-entity>
   </a-entity>
 
 </a-scene>
@@ -96,35 +87,112 @@
 
 
 <script>
-  // detect target found
-
-
-
-
   // detect
-  //dauert zu lange... aber klappt
+  AFRAME.registerComponent("detect-sound", {
+    init: function() {
+      document.body.addEventListener("targetFound", e => {
+        console.log("detected!");
+        var el = this.el;
+        /*
+        //el.removeAttribute('material');
+        el.setAttribute('material', {
+          shader: "gif",
+          autoplay: "true"
+        });
+
+        var soundPlayer = el.getAttribute('sound');
+        console.log(soundPlayer);
+        soundPlayer.playSound();
+         */
+
+        el.components.sound.playSound();
+      });
+    }
+
+  });
+
   AFRAME.registerComponent("detect-target", {
     init: function() {
       document.body.addEventListener("targetFound", e => {
         console.log("detected!");
         var el = this.el;
+        //el.removeAttribute('material');
+        el.setAttribute('material', {
+          shader: "gif",
+          autoplay: "true"
+        });
+        /*
+        var soundPlayer = el.getAttribute('sound');
+        console.log(soundPlayer);
+        soundPlayer.playSound();
+         */
+
+        el.components.sound.playSound();
+        el.play();
+      });
+      document.body.addEventListener("targetLost", e => {
+        console.log("target lost!");
+        var el = this.el;
+        /*
         var mat = el.getAttribute('id');
         el.removeAttribute('material');
         el.setAttribute('material', {
           shader: "gif",
-          src: "#" + mat
+          src: "#" + mat,
+          autoplay: "false"
         });
+         */
+        el.pause();
+
       });
     }
+
   });
 
   // clickable
   AFRAME.registerComponent("play-on-click", {
+
     init: function() {
+      var mySoundPlayer = document.querySelector('#soundPlayer');
+      var clicked = new Boolean(false);
+      var el = this.el;
+      var source = el.getAttribute('id');
+
+      console.log("clicked ist " + clicked);
+
       document.body.addEventListener("click", e => {
-        console.log("clicked!");
-        var el = this.el;
+
+        console.log("clicked ist " + clicked);
+
+        el.setAttribute('material', {
+          shader: "gif",
+          autoplay: "true"
+        });
+
+        mySoundPlayer.setAttribute('sound', {
+          src: "#" + source + "Sound"
+        })
+
         el.play();
+        mySoundPlayer.components.sound.playSound();
+        clicked = true;
+        console.log("clicked ist " + clicked);
+
+      });
+      document.body.addEventListener("targetFound", e => {
+        console.log("detected!");
+        if(clicked == true) {
+
+          mySoundPlayer.components.sound.playSound();
+          el.play();
+        }
+
+      });
+      document.body.addEventListener("targetLost", e => {
+        console.log("target lost!");
+        el.pause();
+        mySoundPlayer.components.sound.stopSound();
+
       });
     }
   });
